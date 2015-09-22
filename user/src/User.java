@@ -1,9 +1,7 @@
-/**
- * Created by ILUXONCHIK on 22/09/2015.
- */
+
 public class User implements OnUserCommand {
 
-    
+
     @Override
     public void onListCommand(Object sender, EventArgs e) {
 
