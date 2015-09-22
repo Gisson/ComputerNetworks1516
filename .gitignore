@@ -13,4 +13,5 @@ hs_err_pid*
 
 #IntelliJ IDE
 .idea/
+out/
 *.iml
