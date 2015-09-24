@@ -10,6 +10,13 @@ public final class UDPSocketObject extends SocketObject {
 
     private final DatagramSocket clientSocket;
 
+    /**
+     * Creates a SocketObject associated with the specified {@link java.net.InetSocketAddress InetSocketAddress}.
+     *
+     * @param address address with which the instance will be associated with
+     * @param data data to send
+     * @throws SocketException
+     */
     public UDPSocketObject(InetSocketAddress address, byte[] data) throws SocketException {
         super(address, data);
         try {
@@ -19,6 +26,13 @@ public final class UDPSocketObject extends SocketObject {
         }
     }
 
+    /**
+     * Creates a SocketObject associated with the specified {@link java.net.InetSocketAddress InetSocketAddress}.
+     * The data to be sent is set to null.
+     *
+     * @param address address with which the instance will be associated with
+     * @throws SocketException
+     */
     public UDPSocketObject(InetSocketAddress address) throws SocketException {
         this(address, null);
     }

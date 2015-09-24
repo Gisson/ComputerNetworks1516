@@ -11,6 +11,13 @@ public final class TCPSocketObject extends SocketObject {
 
     private Socket clientSocket;
 
+    /**
+     * Creates a SocketObject associated with the specified {@link java.net.InetSocketAddress InetSocketAddress}.
+     *
+     * @param address address with which the instance will be associated with
+     * @param data data to send
+     * @throws IOException
+     */
     public TCPSocketObject(InetSocketAddress address, byte[] data) throws IOException {
         super(address, data);
         try {
@@ -22,6 +29,13 @@ public final class TCPSocketObject extends SocketObject {
         }
     }
 
+    /**
+     * Creates a SocketObject associated with the specified {@link java.net.InetSocketAddress InetSocketAddress}.
+     * The data to be sent is set to null.
+     *
+     * @param address address with which the instance will be associated with
+     * @throws IOException
+     */
     public TCPSocketObject(InetSocketAddress address) throws IOException {
         this(address, null);
     }
