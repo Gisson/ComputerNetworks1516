@@ -1,3 +1,5 @@
+package io.github.cnquiz;
+
 /**
  * Created by ILUXONCHIK on 22/09/2015.
  */

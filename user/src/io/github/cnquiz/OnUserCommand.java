@@ -1,3 +1,5 @@
+package io.github.cnquiz;
+
 /**
  * Contains commands that can be sent to the user.
  */
