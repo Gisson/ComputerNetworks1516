@@ -19,11 +19,7 @@ public final class UDPSocketObject extends SocketObject {
      */
     public UDPSocketObject(InetSocketAddress address, byte[] data) throws SocketException {
         super(address, data);
-        try {
-            clientSocket = new DatagramSocket();
-        } catch (SocketException e) {
-            throw e;
-        }
+        clientSocket = new DatagramSocket();
     }
 
     /**

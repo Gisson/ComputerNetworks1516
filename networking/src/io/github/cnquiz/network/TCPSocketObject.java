@@ -20,13 +20,7 @@ public final class TCPSocketObject extends SocketObject {
      */
     public TCPSocketObject(InetSocketAddress address, byte[] data) throws IOException {
         super(address, data);
-        try {
-            clientSocket = new Socket(address.getAddress(), address.getPort());
-        } catch (IOException e) {
-            throw  new IOException(e.getMessage());
-        } catch (Exception e) {
-            throw e;
-        }
+        clientSocket = new Socket(address.getAddress(), address.getPort());
     }
 
     /**
