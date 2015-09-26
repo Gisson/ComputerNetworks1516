@@ -53,6 +53,8 @@ public abstract class SocketObject {
     public byte[] getData() {
         return data;
     }
+    
+    
 
 
 }

@@ -1,4 +1,5 @@
 package io.github.cnquiz.network;
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
@@ -35,9 +36,10 @@ public final class UDPSocketObject extends SocketObject {
 
     @Override
     public void send() {
-        throw  new UnsupportedOperationException();
+        //clientSocket.send(new DatagramPacket(data, 1024, address.getAddress(), 9876));
     }
-
+    
+    
     @Override
     public void send(int offset, int length) {
         throw  new UnsupportedOperationException();
