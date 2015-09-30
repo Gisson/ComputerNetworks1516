@@ -3,6 +3,7 @@ package io.github.cnquiz.protocol;
 import io.github.cnquiz.network.SocketObject;
 import io.github.cnquiz.network.TCPSocketObject;
 import io.github.cnquiz.network.UDPSocketObject;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -76,6 +77,10 @@ public final class Protocol {
         }
     }
 
+    /**
+     *  Class responsible for encapsulating the protocol for the ecp application specified in project's description.
+     *  An instance of this class is bound to the provided user address.
+     */
     public final class Ecp {
         private SocketObject userClient;
         private SocketObject tesClient;
