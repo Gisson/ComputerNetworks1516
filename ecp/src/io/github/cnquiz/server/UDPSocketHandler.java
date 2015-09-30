@@ -15,6 +15,7 @@ public final class UDPSocketHandler implements Runnable {
 
     @Override
     public void run() {
-
+        // TODO:
+        System.out.println("Hello UDP!");
     }
 }

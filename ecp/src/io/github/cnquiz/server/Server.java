@@ -26,4 +26,5 @@ public abstract class Server {
     }
 
     public abstract Thread start();
+    public  abstract void stop();
 }
