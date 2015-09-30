@@ -13,7 +13,11 @@ public class TCPServer extends Server{
         super(threadPoolSize, serverPort);
     }
 
-    public void start() {
+    public TCPServer(int serverPort) {
+        super(serverPort);
+    }
+
+    public Thread start() {
         Runnable serverTask = new Runnable() {
             @Override
             public void run() {
@@ -31,5 +35,7 @@ public class TCPServer extends Server{
 
         Thread serverThread = new Thread(serverTask);
         serverThread.start();
+
+        return serverThread;
     }
 }

@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
  */
 public abstract class Server {
 
-    protected final int POOL_SIZE = 10;
+    private static final int DEFAULT_POOL_SIZE = 10;
 
     protected final int serverPort;
     protected final int threadPoolSize;
@@ -18,8 +18,12 @@ public abstract class Server {
     public Server(int threadPoolSize, int serverPort) {
         this.threadPoolSize = threadPoolSize;
         this.serverPort = serverPort;
-        this.clientProcessingPool = Executors.newFixedThreadPool(POOL_SIZE);
+        this.clientProcessingPool = Executors.newFixedThreadPool(threadPoolSize);
     }
 
-    public abstract void start();
+    public Server(int serverPort) {
+        this(DEFAULT_POOL_SIZE, serverPort);
+    }
+
+    public abstract Thread start();
 }

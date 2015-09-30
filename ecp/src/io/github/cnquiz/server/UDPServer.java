@@ -15,8 +15,12 @@ public class UDPServer extends Server {
         super(threadPoolSize, serverPort);
     }
 
+    public UDPServer(int serverPort) {
+        super(serverPort);
+    }
+
     @Override
-    public void start() {
+    public Thread start() {
         Runnable serverTask = new Runnable() {
             @Override
             public void run() {
@@ -36,6 +40,8 @@ public class UDPServer extends Server {
 
         Thread serverThread = new Thread(serverTask);
         serverThread.start();
+
+        return serverThread;
     }
 }
 
