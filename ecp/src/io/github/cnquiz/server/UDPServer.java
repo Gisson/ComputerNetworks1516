@@ -20,10 +20,10 @@ public class UDPServer extends Server {
         Runnable serverTask = new Runnable() {
             @Override
             public void run() {
-                byte[] recieveBuff = new byte[BUFF_SIZE];
+                byte[] receiveBuff = new byte[BUFF_SIZE];
                 try {
                     DatagramSocket serverSocket = new DatagramSocket(serverPort);
-                    DatagramPacket packet = new DatagramPacket(recieveBuff, recieveBuff.length);
+                    DatagramPacket packet = new DatagramPacket(receiveBuff, receiveBuff.length);
                     while (true) {
                         serverSocket.receive(packet);
                         clientProcessingPool.submit(new UDPSocketHandler(packet));

@@ -38,10 +38,7 @@ public final class Protocol {
 
         private void request(int topicNum) { throw new UnsupportedOperationException(); }
 
-        public void list() {
-            ecpClient.setData("TQR".getBytes());
-            ecpClient.send();
-        }
+        public void list() { throw  new UnsupportedOperationException();}
 
         public void submit(int sid, int qid, String answerSeq) { throw new UnsupportedOperationException(); }
 

@@ -36,7 +36,6 @@ public final class UDPSocketObject extends SocketObject {
 
     @Override
     public void send() {
-        //clientSocket.send(new DatagramPacket(data, 1024, address.getAddress(), 9876));
     }
     
     
