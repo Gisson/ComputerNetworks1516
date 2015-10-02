@@ -1,11 +1,15 @@
 package io.github.cnquiz.server;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 
 /**
  * Handles UDP messages.
  */
-public final class UDPSocketHandler implements Runnable {
+public final class UDPSocketHandler extends SocketHandler {
 
     private final DatagramPacket receivePacket;
 
@@ -15,7 +19,7 @@ public final class UDPSocketHandler implements Runnable {
 
     @Override
     public void run() {
-        // TODO:
-        System.out.println("Hello UDP!");
+        String dataRead = readString(receivePacket.getData());
+        System.out.println(dataRead);
     }
 }
