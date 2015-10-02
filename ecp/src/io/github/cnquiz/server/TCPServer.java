@@ -1,5 +1,7 @@
 package io.github.cnquiz.server;
 
+import io.github.cnquiz.protocol.MessageHandler;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,17 +10,17 @@ import java.util.concurrent.TimeUnit;
 /**
  * TCP server using a thread pool.
  */
-public class TCPServer extends Server{
+public class TCPServer extends HandlerServer {
 
     private ServerSocket serverSocket;
     private Thread serverThread;
 
-    public TCPServer(int threadPoolSize, int serverPort) {
-        super(threadPoolSize, serverPort);
+    public TCPServer(int threadPoolSize, int serverPort, MessageHandler handler) {
+        super(threadPoolSize, serverPort, handler);
     }
 
-    public TCPServer(int serverPort) {
-        super(serverPort);
+    public TCPServer(int serverPort, MessageHandler messageHandler) {
+        super(serverPort, messageHandler);
     }
 
     public Thread start() {
@@ -30,7 +32,7 @@ public class TCPServer extends Server{
                     serverSocket = new ServerSocket(serverPort);
                     while (isRunning) {
                         Socket clientSocket = serverSocket.accept();
-                        clientProcessingPool.submit(new TCPSocketHandler(clientSocket));
+                        clientProcessingPool.submit(new TCPSocketHandler(clientSocket, messageHandler));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

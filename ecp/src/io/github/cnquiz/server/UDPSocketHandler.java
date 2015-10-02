@@ -1,5 +1,7 @@
 package io.github.cnquiz.server;
 
+import io.github.cnquiz.protocol.MessageHandler;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,14 +14,17 @@ import java.net.DatagramSocket;
 public final class UDPSocketHandler extends SocketHandler {
 
     private final DatagramPacket receivePacket;
+    private final MessageHandler messageHandler;
 
-    public UDPSocketHandler(DatagramPacket receivePacket) {
+    public UDPSocketHandler(DatagramPacket receivePacket, MessageHandler messageHandler) {
         this.receivePacket = receivePacket;
+        this.messageHandler = messageHandler;
+
     }
 
     @Override
     public void run() {
         String dataRead = readString(receivePacket.getData());
-        System.out.println(dataRead);
+        messageHandler.handle(dataRead);
     }
 }

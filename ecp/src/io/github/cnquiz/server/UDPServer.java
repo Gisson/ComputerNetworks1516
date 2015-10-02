@@ -1,5 +1,7 @@
 package io.github.cnquiz.server;
 
+import io.github.cnquiz.protocol.MessageHandler;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -9,19 +11,19 @@ import java.util.concurrent.TimeUnit;
 /**
  * UDP server using a thread pool.
  */
-public class UDPServer extends Server {
+public class UDPServer extends HandlerServer {
 
     private final int BUFF_SIZE = 1024; // buffer size for datagram receive packet
 
     private DatagramSocket serverSocket;
     private Thread serverThread;
 
-    public UDPServer(int threadPoolSize, int serverPort) {
-        super(threadPoolSize, serverPort);
+    public UDPServer(int threadPoolSize, int serverPort, MessageHandler messageHandler) {
+        super(threadPoolSize, serverPort, messageHandler);
     }
 
-    public UDPServer(int serverPort) {
-        super(serverPort);
+    public UDPServer(int serverPort, MessageHandler messageHandler) {
+        super(serverPort, messageHandler);
     }
 
     @Override
@@ -36,7 +38,7 @@ public class UDPServer extends Server {
                     DatagramPacket packet = new DatagramPacket(receiveBuff, receiveBuff.length);
                     while (isRunning) {
                         serverSocket.receive(packet);
-                        clientProcessingPool.submit(new UDPSocketHandler(packet));
+                        clientProcessingPool.submit(new UDPSocketHandler(packet, messageHandler));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
