@@ -24,7 +24,7 @@ public final class UDPSocketHandler extends SocketHandler {
 
     @Override
     public void run() {
-        String dataRead = readString(receivePacket.getData());
-        messageHandler.handle(dataRead);
+        String dataRead = readString(receivePacket);
+        messageHandler.handle(dataRead, receivePacket);
     }
 }

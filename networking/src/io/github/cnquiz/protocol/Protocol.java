@@ -79,6 +79,8 @@ public final class Protocol {
      *  An instance of this class is bound to the provided user address.
      */
     public final class Ecp {
+        public static final String USER_TQR = "TQR";
+
         private SocketObject userClient;
         private SocketObject tesClient;
 

@@ -19,4 +19,6 @@ public interface OnNetworkMessageListener {
      * @param e event arguments
      */
      void onUserTopicRequest(Object sender, EventArgs e);
+
+    void onError(Object sender, EventArgs e);
 }
