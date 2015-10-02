@@ -19,7 +19,5 @@ public final class TCPSocketHandler implements  Runnable {
     public void run() {
         // TODO
         System.out.println("Hello TCP!");
-
-
     }
 }

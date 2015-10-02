@@ -13,12 +13,14 @@ public abstract class Server {
     protected final int serverPort;
     protected final int threadPoolSize;
     protected final ExecutorService clientProcessingPool;
+    protected boolean isRunning;
 
 
     public Server(int threadPoolSize, int serverPort) {
         this.threadPoolSize = threadPoolSize;
         this.serverPort = serverPort;
         this.clientProcessingPool = Executors.newFixedThreadPool(threadPoolSize);
+        this.isRunning = false;
     }
 
     public Server(int serverPort) {
@@ -26,5 +28,5 @@ public abstract class Server {
     }
 
     public abstract Thread start();
-    public  abstract void stop();
+    public abstract void stop();
 }

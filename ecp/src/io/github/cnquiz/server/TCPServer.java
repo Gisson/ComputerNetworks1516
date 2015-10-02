@@ -22,12 +22,13 @@ public class TCPServer extends Server{
     }
 
     public Thread start() {
+        isRunning = true;
         Runnable serverTask = new Runnable() {
             @Override
             public void run() {
                 try {
                     serverSocket = new ServerSocket(serverPort);
-                    while (true) {
+                    while (isRunning) {
                         Socket clientSocket = serverSocket.accept();
                         clientProcessingPool.submit(new TCPSocketHandler(clientSocket));
                     }
@@ -45,13 +46,7 @@ public class TCPServer extends Server{
 
     @Override
     public void stop() {
-        if (clientProcessingPool != null) {
-            try {
-                clientProcessingPool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        isRunning = false;
 
         if(serverSocket != null) {
             try {
@@ -60,5 +55,14 @@ public class TCPServer extends Server{
                 e.printStackTrace();
             }
         }
+
+        if (clientProcessingPool != null) {
+            try {
+                clientProcessingPool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

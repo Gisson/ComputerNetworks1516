@@ -26,6 +26,7 @@ public class UDPServer extends Server {
 
     @Override
     public Thread start() {
+        isRunning = true;
         Runnable serverTask = new Runnable() {
             @Override
             public void run() {
@@ -33,7 +34,7 @@ public class UDPServer extends Server {
                 try {
                     serverSocket = new DatagramSocket(serverPort);
                     DatagramPacket packet = new DatagramPacket(receiveBuff, receiveBuff.length);
-                    while (true) {
+                    while (isRunning) {
                         serverSocket.receive(packet);
                         clientProcessingPool.submit(new UDPSocketHandler(packet));
                     }
@@ -51,6 +52,11 @@ public class UDPServer extends Server {
 
     @Override
     public void stop() {
+        isRunning = false;
+
+        if(serverSocket != null) {
+            serverSocket.close();
+        }
 
         if (clientProcessingPool != null) {
             try {
@@ -58,10 +64,6 @@ public class UDPServer extends Server {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
-
-        if(serverSocket != null) {
-            serverSocket.close();
         }
     }
 }
