@@ -1,6 +1,7 @@
 package io.github.cnquiz.network;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
 /**
@@ -41,6 +42,21 @@ public abstract class SocketObject {
     public SocketObject(InetSocketAddress address) {
         this.address = address;
         data = null;
+    }
+
+    public SocketObject(InetAddress addr, int port) {
+        this.address = new InetSocketAddress(addr, port);
+        data = null;
+    }
+
+    public SocketObject(InetAddress address, int port, String data) {
+        this.address = new InetSocketAddress(address, port);
+        this.data = data.getBytes();
+    }
+
+    public SocketObject(InetAddress addr, int port, byte[] data) {
+        this.address = new InetSocketAddress(addr, port);
+        this.data = data;
     }
 
     /**

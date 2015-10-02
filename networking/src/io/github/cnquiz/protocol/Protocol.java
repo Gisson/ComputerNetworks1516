@@ -18,7 +18,7 @@ public final class Protocol {
      *  Class responsible for encapsulating the protocol for the user application specified in project's description.
      *  An instance of this class is bound to the provided ECP address.
      */
-    public final class User {
+    public static final class User {
 
         private SocketObject tesClient;
         private final SocketObject ecpClient;
@@ -51,7 +51,7 @@ public final class Protocol {
         public void requestQuest(int sid) { throw  new UnsupportedOperationException();}
     }
 
-    public final class Tes {
+    public static final class Tes {
         private SocketObject userClient;
         private final SocketObject ecpClient;
 
@@ -78,11 +78,24 @@ public final class Protocol {
      *  Class responsible for encapsulating the protocol for the ecp application specified in project's description.
      *  An instance of this class is bound to the provided user address.
      */
-    public final class Ecp {
+    public static final class Ecp {
         public static final String USER_TQR = "TQR";
+
+        private final String ERR_MSG = "ERR";
 
         private SocketObject userClient;
         private SocketObject tesClient;
+
+        public void sendError() {
+            if (userClient != null) {
+                userClient.setData(ERR_MSG.getBytes());
+                try {
+                    userClient.send();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
         // TODO: Issue #6
         public void sendQuestTopicList(String topicList) { throw new UnsupportedOperationException();}
@@ -92,6 +105,14 @@ public final class Protocol {
 
         // Section 3.3
         public void confirmResultReceival(int qid) { throw  new UnsupportedOperationException(); }
+
+        public SocketObject getUserClient() {
+            return userClient;
+        }
+
+        public void setUserClient(UDPSocketObject userClient) {
+            this.userClient = userClient;
+        }
     }
 
 }

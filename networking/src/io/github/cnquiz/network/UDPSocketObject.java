@@ -35,6 +35,11 @@ public final class UDPSocketObject extends SocketObject {
         this(address, null);
     }
 
+    public UDPSocketObject(DatagramPacket packet) throws SocketException {
+        super(packet.getAddress(), packet.getPort());
+        clientSocket = new DatagramSocket();
+    }
+
     @Override
     public void send() throws IOException {
         send(0, getData().length);

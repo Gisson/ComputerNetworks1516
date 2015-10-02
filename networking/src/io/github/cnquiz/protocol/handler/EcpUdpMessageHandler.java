@@ -2,6 +2,7 @@ package io.github.cnquiz.protocol.handler;
 
 import io.github.cnquiz.OnNetworkMessageListener;
 import io.github.cnquiz.protocol.MessageHandler;
+import io.github.cnquiz.protocol.Protocol;
 
 import java.net.DatagramPacket;
 
@@ -25,10 +26,21 @@ public final class EcpUdpMessageHandler implements MessageHandler {
     public void handle(String message, DatagramPacket packet) {
 
         if (!endsWithNewLine(message)) {
-            listener.onError(this, new UDPHandlerArgs(packet));
+            listener.onError(this, new UDPPacketArgs(packet));
         }
         msgArr = messageToArray(message);
 
+    }
+
+    private void interpertMessage(String message, DatagramPacket packet) {
+        switch (msgArr[0]) {
+            case (Protocol.Ecp.USER_TQR) :
+                listener.onUserListRequest(this, new UDPPacketArgs(packet));
+                break;
+
+            default:
+                listener.onError(this, new UDPPacketArgs(packet));
+        }
     }
 
     private boolean endsWithNewLine(String str) {
