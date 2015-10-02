@@ -35,12 +35,13 @@ public final class TCPSocketObject extends SocketObject {
     }
 
     @Override
-    public void send() {
-        throw  new UnsupportedOperationException();
+    public void send() throws IOException{
+        send(0, getData().length);
     }
 
     @Override
-    public void send(int offset, int length) {
-        throw  new UnsupportedOperationException();
+    public void send(int offset, int length) throws IOException {
+        // TODO: data might be null
+        clientSocket.getOutputStream().write(getData(), offset, length);
     }
 }
