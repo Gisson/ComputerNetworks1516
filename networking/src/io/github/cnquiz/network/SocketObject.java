@@ -76,6 +76,8 @@ public abstract class SocketObject {
         this.data = data;
     }
 
+    public void setData(String data) { this.data = data.getBytes(); }
+
     public byte[] getData() {
         return data;
     }

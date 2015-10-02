@@ -29,6 +29,7 @@ public final class EcpUdpMessageHandler implements MessageHandler {
             listener.onError(this, new UDPPacketArgs(packet));
         }
         msgArr = messageToArray(message);
+        interpertMessage(message, packet);
 
     }
 

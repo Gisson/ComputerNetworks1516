@@ -1,6 +1,7 @@
 package io.github.cnquiz;
 
 import io.github.cnquiz.parser.ArgumentParser;
+import io.github.cnquiz.protocol.Protocol;
 
 public class Main {
 

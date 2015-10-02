@@ -14,6 +14,12 @@ import java.net.SocketException;
 
 public class Ecp implements OnNetworkMessageListener {
 
+    private final String ROOT_PATH = "./";
+    private final String TOPICS_PATH = "res/";
+    private final String TOPICS_FILENAME = "topics.txt";
+    private final String TOPICS_RELATIVE_PATH = ROOT_PATH + TOPICS_PATH + TOPICS_FILENAME;
+
+
     private final int portNumber;
     private final Protocol.Ecp protocolHelper = new Protocol.Ecp();
 
@@ -35,6 +41,14 @@ public class Ecp implements OnNetworkMessageListener {
 
     @Override
     public void onUserListRequest(Object sender, EventArgs e) {
+        DatagramPacket senderPack = ((UDPPacketArgs)e).getPacket();
+        try {
+            protocolHelper.setUserClient(new UDPSocketObject(senderPack));
+            protocolHelper.sendQuestTopicListFromFile(TOPICS_RELATIVE_PATH);
+
+        } catch (SocketException e1) {
+            e1.printStackTrace();
+        }
 
     }
 
@@ -53,4 +67,5 @@ public class Ecp implements OnNetworkMessageListener {
             e1.printStackTrace();
         }
     }
+
 }
