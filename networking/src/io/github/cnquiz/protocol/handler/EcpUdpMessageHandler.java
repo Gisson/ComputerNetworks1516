@@ -5,6 +5,7 @@ import io.github.cnquiz.protocol.MessageHandler;
 import io.github.cnquiz.protocol.Protocol;
 
 import java.net.DatagramPacket;
+import java.net.InetAddress;
 
 /**
  * Handles messages sent to the ECP server.
@@ -22,6 +23,7 @@ public final class EcpUdpMessageHandler implements MessageHandler {
 
     @Override
     public void handle(String message, DatagramPacket packet) {
+        outputRequestToConsole(message, packet.getAddress(), packet.getPort());
         String[] msgArr;
 
         if (!endsWithNewLine(message)) {
@@ -29,6 +31,10 @@ public final class EcpUdpMessageHandler implements MessageHandler {
         }
         msgArr = messageToArray(message, SPACE);
         interpertMessage(msgArr, packet);
+    }
+
+    private void outputRequestToConsole(String message, InetAddress address, int port) {
+        System.out.println(removeLastChar(message) + " | " + address.getHostAddress() +  ":" + port);
     }
 
     private void interpertMessage(String[] msgArr, DatagramPacket packet) {
