@@ -44,6 +44,14 @@ public final class EcpUdpMessageHandler implements MessageHandler {
                 break;
             case (Protocol.Ecp.USER_TER) :
                 listener.onUserTopicRequest(this, new TERArgs(packet, msgArr[1]));
+                break;
+            case (Protocol.Ecp.TES_IQR):
+                if(msgArr.length != 5) {
+                    listener.onError(this, new UDPPacketArgs(packet));
+                } else {
+                    listener.onUserStatMessage(this, new IQRArgs(packet, msgArr[1], msgArr[2], msgArr[3], msgArr[4]));
+                }
+                break;
 
             default:
                 listener.onError(this, new UDPPacketArgs(packet));

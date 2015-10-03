@@ -20,5 +20,7 @@ public interface OnNetworkMessageListener {
      */
      void onUserTopicRequest(Object sender, EventArgs e);
 
+    void onUserStatMessage(Object sender, EventArgs e);
+
     void onError(Object sender, EventArgs e);
 }

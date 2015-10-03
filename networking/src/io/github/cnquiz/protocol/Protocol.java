@@ -87,11 +87,13 @@ public final class Protocol {
     public static final class Ecp {
         public static final String USER_TQR = "TQR";
         public static final String USER_TER = "TER";
+        public static final String TES_IQR = "IQR";
 
         private final String AWT_MSG = "AWT";
         private final String ERR_MSG = "ERR";
         private final String EOF_MSG = "EOF";
         private final String AWTES_MSG = "AWTES";
+        private final String AWI_MSG = "AWI";
         private final String SPACE = " ";
         private final String NEWLINE= "\n";
 
@@ -123,7 +125,18 @@ public final class Protocol {
 
         public void sendQuestTopicList() {
             if (userClient != null) {
-                userClient.setData(AWT_MSG + SPACE + new String(userClient.getData()));
+                userClient.setData(AWT_MSG + SPACE + new String(userClient.getData()) + NEWLINE);
+                try {
+                    userClient.send();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        public void sendStatsRecievedACK(String qid) {
+            if (userClient != null) {
+                userClient.setData(AWI_MSG + SPACE + qid + NEWLINE);
                 try {
                     userClient.send();
                 } catch (IOException e) {
