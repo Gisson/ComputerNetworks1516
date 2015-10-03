@@ -90,6 +90,7 @@ public final class Protocol {
         private final String ERR_MSG = "ERR";
         private final String EOF_MSG = "EOF";
         private final String SPACE = " ";
+        private final String NEWLINE= "\n";
 
 
         private SocketObject userClient;
@@ -97,7 +98,7 @@ public final class Protocol {
 
         public void sendError() {
             if (userClient != null) {
-                userClient.setData(ERR_MSG.getBytes());
+                userClient.setData(getErrorMsg().getBytes());
                 try {
                     userClient.send();
                 } catch (IOException e) {
@@ -108,7 +109,7 @@ public final class Protocol {
 
         public void sendEOF() {
             if (userClient != null) {
-                userClient.setData(EOF_MSG.getBytes());
+                userClient.setData(getEOFMsg().getBytes());
                 try {
                     userClient.send();
                 } catch (IOException e) {
@@ -135,29 +136,42 @@ public final class Protocol {
             try {
                 userClient.setData(buildAWTStringFromFile(filePath));
                 userClient.send();
+            } catch (FileNotFoundException e) {
+                sendEOF();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        private String buildAWTStringFromFile(String filePath) throws  IOException{
+        private String buildAWTStringFromFile(String filePath) throws  IOException {
             StringBuilder protocolStr = new StringBuilder();
             StringBuilder topicCount = new StringBuilder();
             StringBuilder topicNames = new StringBuilder();
 
             BufferedReader br = new BufferedReader(new FileReader(filePath));
-            protocolStr.append(AWT_MSG + SPACE);
-
             int numLines = 0;
             String line;
             while( (line = br.readLine()) != null) {
                 topicNames.append(line + SPACE);
                 numLines++;
             }
+            // if the file is empty send EOF
+            if(numLines == 0) {
+                return getEOFMsg();
+            }
+            protocolStr.append(AWT_MSG + SPACE);
             topicCount.append(numLines);
             topicCount.append(SPACE);
 
             return protocolStr.toString() + topicCount.toString() + topicNames.toString();
+        }
+
+        private String getErrorMsg() {
+            return (ERR_MSG + NEWLINE);
+        }
+
+        private String getEOFMsg() {
+            return (EOF_MSG + NEWLINE);
         }
 
 
