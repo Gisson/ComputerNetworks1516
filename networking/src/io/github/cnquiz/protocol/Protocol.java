@@ -1,11 +1,13 @@
 package io.github.cnquiz.protocol;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import io.github.cnquiz.network.SocketObject;
 import io.github.cnquiz.network.TCPSocketObject;
 import io.github.cnquiz.network.UDPSocketObject;
 import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -89,6 +91,7 @@ public final class Protocol {
         private final String AWT_MSG = "AWT";
         private final String ERR_MSG = "ERR";
         private final String EOF_MSG = "EOF";
+        private final String AWTES_MSG = "AWTES";
         private final String SPACE = " ";
         private final String NEWLINE= "\n";
 
@@ -155,6 +158,7 @@ public final class Protocol {
                 topicNames.append(line + SPACE);
                 numLines++;
             }
+            br.close();
             // if the file is empty send EOF
             if(numLines == 0) {
                 return getEOFMsg();
@@ -175,7 +179,69 @@ public final class Protocol {
         }
 
 
-        public void sendTESInfo(String tesAddress) { throw  new UnsupportedOperationException(); }
+        public void sendTESInfoFromFile(int topicNum, String filePath) {
+            if (userClient == null) {
+                return;
+            }
+            try {
+                userClient.setData(buildAWTESStringFromFile(filePath, topicNum));
+                userClient.send();
+            } catch (FileNotFoundException e) {
+                sendEOF();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void sendTESInfo(String tesAddress) {
+            if (userClient == null) {
+                return;
+            }
+            try {
+                userClient.setData(AWTES_MSG + SPACE + tesAddress + NEWLINE);
+                userClient.send();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private String buildAWTESStringFromFile(String filePath, int topicNum) throws IOException {
+            String topicNumStr = Integer.toString(topicNum);
+            StringBuilder protocolStr = new StringBuilder();
+            StringBuilder tesAddressStr = new StringBuilder();
+
+            BufferedReader br = new BufferedReader(new FileReader(filePath));
+            String line;
+            String [] lineArr;
+            while(( line = br.readLine()) != null) {
+                lineArr = stringToArray(line, SPACE);
+                if (lineHasTopicNum(lineArr, topicNumStr)) {
+                    br.close();
+                    protocolStr.append(AWTES_MSG + SPACE);
+                    tesAddressStr.append(lineArr[lineArr.length - 2] + SPACE);
+                    tesAddressStr.append(lineArr[lineArr.length - 1] + NEWLINE);
+                    return protocolStr.toString() + tesAddressStr.toString();
+                }
+            }
+
+            br.close();
+            return getEOFMsg();
+        }
+
+        private boolean lineHasTopicNum(String[]lineArr, String topicNum ) {
+            // last two elements are TES IP and port
+            for (int i = 0; i < lineArr.length - 2; i++) {
+                if (lineArr[i].equals(topicNum)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        private String[] stringToArray(String lineArr, String separator) {
+            return lineArr.split(separator);
+        }
 
         // Section 3.3
         public void confirmResultReceival(int qid) { throw  new UnsupportedOperationException(); }

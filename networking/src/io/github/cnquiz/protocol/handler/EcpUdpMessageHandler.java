@@ -16,28 +16,28 @@ public final class EcpUdpMessageHandler implements MessageHandler {
 
     private final OnNetworkMessageListener listener;
 
-    private String[] msgArr;
-
     public EcpUdpMessageHandler(OnNetworkMessageListener listener) {
         this.listener = listener;
     }
 
     @Override
     public void handle(String message, DatagramPacket packet) {
+        String[] msgArr;
 
         if (!endsWithNewLine(message)) {
             listener.onError(this, new UDPPacketArgs(packet));
         }
-        msgArr = messageToArray(message);
-        interpertMessage(message, packet);
-
+        msgArr = messageToArray(message, SPACE);
+        interpertMessage(msgArr, packet);
     }
 
-    private void interpertMessage(String message, DatagramPacket packet) {
+    private void interpertMessage(String[] msgArr, DatagramPacket packet) {
         switch (msgArr[0]) {
             case (Protocol.Ecp.USER_TQR) :
                 listener.onUserListRequest(this, new UDPPacketArgs(packet));
                 break;
+            case (Protocol.Ecp.USER_TER) :
+                listener.onUserTopicRequest(this, new TERArgs(packet, msgArr[1]));
 
             default:
                 listener.onError(this, new UDPPacketArgs(packet));
@@ -56,8 +56,8 @@ public final class EcpUdpMessageHandler implements MessageHandler {
         return str.substring(0, str.length() -1);
     }
 
-    private String[] messageToArray(String str) {
-        String[] arr = str.split(SPACE);
+    private String[] messageToArray(String str, String separator) {
+        String[] arr = str.split(separator);
         arr[arr.length - 1] = removeLastChar(arr[arr.length - 1]);
         return arr;
     }

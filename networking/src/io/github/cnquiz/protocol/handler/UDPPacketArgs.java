@@ -7,7 +7,7 @@ import java.net.DatagramPacket;
 /**
  *
  */
-public final class UDPPacketArgs extends EventArgs {
+public class UDPPacketArgs extends EventArgs {
 
     private final DatagramPacket packet;
 
