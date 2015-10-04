@@ -1,7 +1,7 @@
 package io.github.cnquiz;
 
 public class TESOptions {
-    private static final int GROUP_NUMBER = 42;
+    private static final int GROUP_NUMBER = 33;
     private static final String ARG_ERROR_MSG = "Format: ./TES [-p TESport] [-n ECPname] [-e ECPport]";
     private static final String TES_PORT_OPT = "-p";
     private static final String ECP_NAME_OPT = "-n";
