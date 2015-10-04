@@ -3,6 +3,7 @@ package io.github.cnquiz.parser;
 public final class ECPOptions {
 
     private static final int GROUP_NUMBER = 42;
+    private static final int PORT_BASE = 8000;
     private final int portNumber;
 
     public ECPOptions(int portNumber) {
@@ -14,7 +15,7 @@ public final class ECPOptions {
     }
 
     public ECPOptions() {
-        this(GROUP_NUMBER);
+        this(PORT_BASE + GROUP_NUMBER);
     }
 
     public int getPortNumber() {
