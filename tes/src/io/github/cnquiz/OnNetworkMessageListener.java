@@ -8,7 +8,7 @@ public interface OnNetworkMessageListener {
     /** RQT SID
      * called when the user is asking for a questionnaire
      */
-    void onRequestQuestionnaireTopic( Object sender, EventArgs args );
+    //void onRequestQuestionnaireTopic( Object sender, EventArgs args );
 
     // TODO
 
