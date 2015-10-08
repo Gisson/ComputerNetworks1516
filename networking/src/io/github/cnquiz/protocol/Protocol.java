@@ -178,7 +178,7 @@ public final class Protocol {
             topicCount.append(numLines);
             topicCount.append(SPACE);
 
-            return protocolStr.toString() + topicCount.toString() + topicNames.toString();
+            return protocolStr.toString() + topicCount.toString() + topicNames.toString() + NEWLINE;
         }
 
         private String getErrorMsg() {
