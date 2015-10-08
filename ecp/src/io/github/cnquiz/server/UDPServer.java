@@ -32,11 +32,11 @@ public class UDPServer extends HandlerServer {
         Runnable serverTask = new Runnable() {
             @Override
             public void run() {
-                byte[] receiveBuff = new byte[BUFF_SIZE];
                 try {
                     serverSocket = new DatagramSocket(serverPort);
-                    DatagramPacket packet = new DatagramPacket(receiveBuff, receiveBuff.length);
                     while (isRunning) {
+                        byte[] receiveBuff = new byte[BUFF_SIZE];
+                        DatagramPacket packet = new DatagramPacket(receiveBuff, receiveBuff.length);
                         serverSocket.receive(packet);
                         clientProcessingPool.submit(new UDPSocketHandler(packet, messageHandler));
                     }
