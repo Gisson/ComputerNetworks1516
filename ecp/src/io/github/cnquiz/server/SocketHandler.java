@@ -29,6 +29,6 @@ public abstract class SocketHandler implements Runnable {
      * @throws IOException
      */
     protected String readString(DatagramPacket packet) {
-       return new String(packet.getData(), 0, packet.getLength());
+       return new String(packet.getData(), packet.getOffset(), packet.getLength());
     }
 }
