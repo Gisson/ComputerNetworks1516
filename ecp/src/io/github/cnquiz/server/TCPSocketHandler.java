@@ -7,7 +7,7 @@ import java.net.DatagramPacket;
 import java.net.Socket;
 
 /**
- * Created by ILUXONCHIK on 30/09/2015.
+ *
  */
 public final class TCPSocketHandler extends SocketHandler {
 

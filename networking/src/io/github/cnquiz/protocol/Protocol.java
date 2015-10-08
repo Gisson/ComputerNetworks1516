@@ -1,13 +1,8 @@
 package io.github.cnquiz.protocol;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import io.github.cnquiz.network.SocketObject;
-import io.github.cnquiz.network.TCPSocketObject;
 import io.github.cnquiz.network.UDPSocketObject;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
-import java.awt.*;
-import java.awt.datatransfer.StringSelection;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -98,14 +93,17 @@ public final class Protocol {
         private final String NEWLINE= "\n";
 
 
-        private SocketObject userClient;
-        private SocketObject tesClient;
+        private final SocketObject client;
+
+        public Ecp(SocketObject client) {
+            this.client = client;
+        }
 
         public void sendError() {
-            if (userClient != null) {
-                userClient.setData(getErrorMsg().getBytes());
+            if (client != null) {
+                client.setData(getErrorMsg().getBytes());
                 try {
-                    userClient.send();
+                    client.send();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -113,10 +111,10 @@ public final class Protocol {
         }
 
         public void sendEOF() {
-            if (userClient != null) {
-                userClient.setData(getEOFMsg().getBytes());
+            if (client != null) {
+                client.setData(getEOFMsg().getBytes());
                 try {
-                    userClient.send();
+                    client.send();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -124,21 +122,21 @@ public final class Protocol {
         }
 
         public void sendQuestTopicList() {
-            if (userClient != null) {
-                userClient.setData(AWT_MSG + SPACE + new String(userClient.getData()) + NEWLINE);
+            if (client != null) {
+                client.setData(AWT_MSG + SPACE + new String(client.getData()) + NEWLINE);
                 try {
-                    userClient.send();
+                    client.send();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
 
-        public void sendStatsRecievedACK(String qid) {
-            if (userClient != null) {
-                userClient.setData(AWI_MSG + SPACE + qid + NEWLINE);
+        public void sendStatsReceivedACK(String qid) {
+            if (client != null) {
+                client.setData(AWI_MSG + SPACE + qid + NEWLINE);
                 try {
-                    userClient.send();
+                    client.send();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -146,12 +144,12 @@ public final class Protocol {
         }
 
         public void sendQuestTopicListFromFile(String filePath) {
-            if (userClient == null) {
+            if (client == null) {
                 return;
             }
             try {
-                userClient.setData(buildAWTStringFromFile(filePath));
-                userClient.send();
+                client.setData(buildAWTStringFromFile(filePath));
+                client.send();
             } catch (FileNotFoundException e) {
                 sendEOF();
             } catch (IOException e) {
@@ -193,12 +191,12 @@ public final class Protocol {
 
 
         public void sendTESInfoFromFile(int topicNum, String filePath) {
-            if (userClient == null) {
+            if (client == null) {
                 return;
             }
             try {
-                userClient.setData(buildAWTESStringFromFile(filePath, topicNum));
-                userClient.send();
+                client.setData(buildAWTESStringFromFile(filePath, topicNum));
+                client.send();
             } catch (FileNotFoundException e) {
                 sendEOF();
             } catch (IOException e) {
@@ -207,12 +205,12 @@ public final class Protocol {
         }
 
         public void sendTESInfo(String tesAddress) {
-            if (userClient == null) {
+            if (client == null) {
                 return;
             }
             try {
-                userClient.setData(AWTES_MSG + SPACE + tesAddress + NEWLINE);
-                userClient.send();
+                client.setData(AWTES_MSG + SPACE + tesAddress + NEWLINE);
+                client.send();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -259,13 +257,10 @@ public final class Protocol {
         // Section 3.3
         public void confirmResultReceival(int qid) { throw  new UnsupportedOperationException(); }
 
-        public SocketObject getUserClient() {
-            return userClient;
+        public SocketObject getClient() {
+            return client;
         }
 
-        public void setUserClient(UDPSocketObject userClient) {
-            this.userClient = userClient;
-        }
     }
 
 }

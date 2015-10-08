@@ -19,7 +19,6 @@ public final class UDPSocketHandler extends SocketHandler {
     public UDPSocketHandler(DatagramPacket receivePacket, MessageHandler messageHandler) {
         this.receivePacket = receivePacket;
         this.messageHandler = messageHandler;
-
     }
 
     @Override

@@ -34,7 +34,7 @@ public final class EcpUdpMessageHandler implements MessageHandler {
     }
 
     private void outputRequestToConsole(String message, InetAddress address, int port) {
-        System.out.println(removeLastChar(message) + " | " + address.getHostAddress() +  ":" + port);
+        System.out.println(removeLastChar(message) + " | " + address.getHostAddress() +  " : " + port);
     }
 
     private void interpertMessage(String[] msgArr, DatagramPacket packet) {

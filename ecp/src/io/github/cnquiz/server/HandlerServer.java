@@ -6,7 +6,7 @@ import io.github.cnquiz.protocol.MessageHandler;
  * Server with a {@link io.github.cnquiz.protocol.MessageHandler MessageHandler} to handle the incoming
  * packets/datagrams.
  */
-public abstract class HandlerServer extends Server{
+public abstract class HandlerServer extends Server {
 
     protected MessageHandler messageHandler;
 

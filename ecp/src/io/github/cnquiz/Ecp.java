@@ -33,7 +33,6 @@ public class Ecp implements OnNetworkMessageListener {
     private final String SPACE = " ";
 
     private final int portNumber;
-    private final Protocol.Ecp protocolHelper = new Protocol.Ecp();
 
     public Ecp(ECPOptions ecpOpt) {
         portNumber = ecpOpt.getPortNumber();
@@ -55,7 +54,7 @@ public class Ecp implements OnNetworkMessageListener {
     public void onUserListRequest(Object sender, EventArgs args) {
         DatagramPacket senderPack = ((UDPPacketArgs)args).getPacket();
         try {
-            protocolHelper.setUserClient(new UDPSocketObject(senderPack));
+            Protocol.Ecp protocolHelper = new Protocol.Ecp(new UDPSocketObject(senderPack));
             protocolHelper.sendQuestTopicListFromFile(TOPICS_RELATIVE_PATH);
         } catch (SocketException e) {
             e.printStackTrace();
@@ -68,7 +67,7 @@ public class Ecp implements OnNetworkMessageListener {
         DatagramPacket senderPack = ((TERArgs)args).getPacket();
         int topicNum = Integer.parseInt(((TERArgs) args).getTopicNumber());
         try {
-            protocolHelper.setUserClient(new UDPSocketObject(senderPack));
+            Protocol.Ecp protocolHelper = new Protocol.Ecp(new UDPSocketObject(senderPack));
             protocolHelper.sendTESInfoFromFile(topicNum, TES_LIST_RELATIVE_PATH);
         } catch (SocketException e) {
             e.printStackTrace();
@@ -93,8 +92,8 @@ public class Ecp implements OnNetworkMessageListener {
             e.printStackTrace();
         }
         try {
-            protocolHelper.setUserClient(new UDPSocketObject(args.getPacket()));
-            protocolHelper.sendStatsRecievedACK(args.getQid());
+            Protocol.Ecp protocolHelper = new Protocol.Ecp(new UDPSocketObject(args.getPacket()));
+            protocolHelper.sendStatsReceivedACK(args.getQid());
         } catch (SocketException e) {
             e.printStackTrace();
         }
@@ -115,7 +114,7 @@ public class Ecp implements OnNetworkMessageListener {
     public void onError(Object sender, EventArgs e) {
         DatagramPacket senderPack = ((UDPPacketArgs)e).getPacket();
         try {
-            protocolHelper.setUserClient(new UDPSocketObject(senderPack));
+            Protocol.Ecp protocolHelper = new Protocol.Ecp(new UDPSocketObject(senderPack));
             protocolHelper.sendError();
         } catch (SocketException e1) {
             e1.printStackTrace();
