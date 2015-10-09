@@ -166,8 +166,10 @@ public final class Protocol {
             int numLines = 0;
             String line;
             while( (line = br.readLine()) != null) {
-                topicNames.append(getTopicNameFromLineStr(line) + SPACE);
-                numLines++;
+                if (line.length() != 0) {
+                    topicNames.append(getTopicNameFromLineStr(line) + SPACE);
+                    numLines++;
+                }
             }
             br.close();
             // if the file is empty send EOF
@@ -178,7 +180,7 @@ public final class Protocol {
             topicCount.append(numLines);
             topicCount.append(SPACE);
 
-            return protocolStr.toString() + topicCount.toString() + topicNames.toString() + NEWLINE;
+            return protocolStr.toString() + topicCount.toString() + topicNames.substring(0, topicNames.length() - 1) + NEWLINE;
         }
 
         private String getTopicNameFromLineStr(String line) {
