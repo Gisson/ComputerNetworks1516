@@ -166,7 +166,7 @@ public final class Protocol {
             int numLines = 0;
             String line;
             while( (line = br.readLine()) != null) {
-                topicNames.append(line + SPACE);
+                topicNames.append(getTopicNameFromLineStr(line) + SPACE);
                 numLines++;
             }
             br.close();
@@ -179,6 +179,10 @@ public final class Protocol {
             topicCount.append(SPACE);
 
             return protocolStr.toString() + topicCount.toString() + topicNames.toString() + NEWLINE;
+        }
+
+        private String getTopicNameFromLineStr(String line) {
+            return line.split(SPACE)[0];
         }
 
         private String getErrorMsg() {
@@ -217,26 +221,34 @@ public final class Protocol {
         }
 
         private String buildAWTESStringFromFile(String filePath, int topicNum) throws IOException {
-            String topicNumStr = Integer.toString(topicNum);
+            if(topicNum < 1) { return getErrorMsg(); }
+
             StringBuilder protocolStr = new StringBuilder();
             StringBuilder tesAddressStr = new StringBuilder();
 
             BufferedReader br = new BufferedReader(new FileReader(filePath));
             String line;
-            String [] lineArr;
-            while(( line = br.readLine()) != null) {
-                lineArr = stringToArray(line, SPACE);
-                if (lineHasTopicNum(lineArr, topicNumStr)) {
+
+            int lineCtr = 1;
+            while((line = br.readLine()) != null) {
+
+                if (lineCtr == topicNum) {
                     br.close();
                     protocolStr.append(AWTES_MSG + SPACE);
-                    tesAddressStr.append(lineArr[lineArr.length - 2] + SPACE);
-                    tesAddressStr.append(lineArr[lineArr.length - 1] + NEWLINE);
-                    return protocolStr.toString() + tesAddressStr.toString();
+                    tesAddressStr.append(getTesIpPortFromStr(line));
+                    return protocolStr.toString() + tesAddressStr.toString() + NEWLINE;
                 }
+
+                lineCtr++;
             }
 
             br.close();
             return getEOFMsg();
+        }
+
+        private String getTesIpPortFromStr(String line) {
+            String[] lineArr = line.split(SPACE);
+            return lineArr[1] + SPACE + lineArr[2];
         }
 
         private boolean lineHasTopicNum(String[]lineArr, String topicNum ) {

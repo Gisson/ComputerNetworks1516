@@ -21,12 +21,10 @@ import java.nio.file.StandardOpenOption;
 public class Ecp implements OnNetworkMessageListener {
 
     private final String ROOT_PATH = "./";
-    private final String TOPICS_PATH = "res/";
-    private final String TOPICS_FILENAME = "available_topics.txt";
-    private final String TES_LIST_FILENAME = "topics.txt";
+    private final String TOPICS_PATH = "./";
+    private final String TOPICS_FILENAME = "topics.txt";
     private final String STATS_FILENAME = "stats.txt";
     private final String TOPICS_RELATIVE_PATH = ROOT_PATH + TOPICS_PATH + TOPICS_FILENAME;
-    private final String TES_LIST_RELATIVE_PATH = ROOT_PATH + TOPICS_PATH + TES_LIST_FILENAME;
     private final String STATS_RELATIVE_PATH = ROOT_PATH + TOPICS_PATH + STATS_FILENAME;
 
     private final String NEWLINE = "\n";
@@ -68,7 +66,7 @@ public class Ecp implements OnNetworkMessageListener {
         int topicNum = Integer.parseInt(((TERArgs) args).getTopicNumber());
         try {
             Protocol.Ecp protocolHelper = new Protocol.Ecp(new UDPSocketObject(senderPack));
-            protocolHelper.sendTESInfoFromFile(topicNum, TES_LIST_RELATIVE_PATH);
+            protocolHelper.sendTESInfoFromFile(topicNum, TOPICS_RELATIVE_PATH);
         } catch (SocketException e) {
             e.printStackTrace();
         }
