@@ -231,9 +231,11 @@ public final class Protocol {
 
             int lineCtr = 1;
             while((line = br.readLine()) != null) {
-
                 if (lineCtr == topicNum) {
                     br.close();
+                    if (line.length() == 0) {
+                        return getEOFMsg();
+                    }
                     protocolStr.append(AWTES_MSG + SPACE);
                     tesAddressStr.append(getTesIpPortFromStr(line));
                     return protocolStr.toString() + tesAddressStr.toString() + NEWLINE;
