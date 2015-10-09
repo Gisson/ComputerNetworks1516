@@ -39,10 +39,19 @@ public final class EcpUdpMessageHandler implements MessageHandler {
 
     private void interpertMessage(String[] msgArr, DatagramPacket packet) {
         switch (msgArr[0]) {
-            case (Protocol.Ecp.USER_TQR) :
+            case (Protocol.Ecp.USER_TQR):
+
+                if(msgArr.length != 1) {
+                    listener.onError(this, new UDPPacketArgs(packet));
+                    break;
+                }
                 listener.onUserListRequest(this, new UDPPacketArgs(packet));
                 break;
             case (Protocol.Ecp.USER_TER) :
+                if (msgArr.length != 2) {
+                    listener.onError(this, new UDPPacketArgs(packet));
+                    break;
+                }
                 listener.onUserTopicRequest(this, new TERArgs(packet, msgArr[1]));
                 break;
             case (Protocol.Ecp.TES_IQR):

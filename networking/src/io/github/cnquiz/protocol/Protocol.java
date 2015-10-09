@@ -272,7 +272,7 @@ public final class Protocol {
         public SocketObject getClient() {
             return client;
         }
-
     }
+
 
 }
